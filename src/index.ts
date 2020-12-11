@@ -97,6 +97,14 @@ export function createApi<
     reducer: uninitialized,
     middleware: uninitialized,
     injectEndpoints,
+    enhanceEndpoints(partialDefinitions) {
+      for (const [endpoint, partialDefinition] of Object.entries(partialDefinitions)) {
+        if (typeof partialDefinition === 'function') {
+          partialDefinition(endpointDefinitions[endpoint]);
+        }
+        Object.assign(endpointDefinitions[endpoint] || {}, partialDefinition);
+      }
+    },
   };
 
   const {

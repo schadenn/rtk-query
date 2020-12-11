@@ -78,6 +78,11 @@ export type Api<
     endpoints: (build: EndpointBuilder<BaseQuery, EntityTypes, ReducerPath>) => NewDefinitions;
     overrideExisting?: boolean;
   }): Api<BaseQuery, Definitions & NewDefinitions, ReducerPath, EntityTypes>;
+  enhanceEndpoints(
+    partialDefinitions: {
+      [K in keyof Definitions]?: Partial<Definitions[K]> | ((definition: Definitions[K]) => void);
+    }
+  ): void;
   endpoints: {
     [K in keyof Definitions]: Definitions[K] extends QueryDefinition<any, any, any, any, any>
       ? ApiEndpointQuery<Definitions[K], Definitions>
